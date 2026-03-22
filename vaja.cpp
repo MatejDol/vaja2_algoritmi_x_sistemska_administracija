@@ -1,7 +1,11 @@
 #include <iostream>
-// TODO: implement Binary Radix sort for unsigned char [0,255]
+#include <vector>
+
+void binaryRadixSort(std::vector<unsigned char>& arr) {
+
+}
 
 int main(int argc, char* argv[]) {
-    
+
     return 0;
 }
