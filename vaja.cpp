@@ -48,16 +48,16 @@ int main(int argc, char* argv[]) {
     }
     in.close();
 
-    // binaryRadixSort(arr);
+    binaryRadixSort(arr);
 
-    // std::ofstream out("out.txt");
-    // for (size_t i = 0; i < arr.size(); ++i) {
-    //     out << static_cast<int>(arr[i]);
-    //     if (i + 1 < arr.size()) out << ",";
-    // }
-    // out.close();
+    std::ofstream out("out.txt");
+    for (size_t i = 0; i < arr.size(); ++i) {
+        out << static_cast<int>(arr[i]);
+        if (i + 1 < arr.size()) out << ",";
+    }
+    out.close();
 
-    // std::cout << "Sortirano v out.txt\n";
-    // return 0;
+    std::cout << "Sortirano v out.txt\n";
+    return 0;
 }
 
