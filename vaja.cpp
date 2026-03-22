@@ -12,10 +12,10 @@ void binaryRadixSort(std::vector<unsigned char>& arr) {
         }
         int i0 = 0;
         int i1 = count0;
-        // for (unsigned char x : arr) {
-        //     if (((x >> bit) & 1) == 0) tmp[i0++] = x;
-        //     else tmp[i1++] = x;
-        // }
+        for (unsigned char x : arr) {
+            if (((x >> bit) & 1) == 0) tmp[i0++] = x;
+            else tmp[i1++] = x;
+        }
         for (size_t i = 0; i < arr.size(); ++i) {
             arr[i] = tmp[i];
         }
