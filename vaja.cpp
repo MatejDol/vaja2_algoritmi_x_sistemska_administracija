@@ -23,41 +23,41 @@ void binaryRadixSort(std::vector<unsigned char>& arr) {
 }
 
 int main(int argc, char* argv[]) {
-    // if (argc < 2) {
-    //     std::cout << "Uporaba: vaja <vhodna_datoteka>\n";
-    //     return 1;
-    // }
+    if (argc < 2) {
+        std::cout << "Uporaba: vaja <vhodna_datoteka>\n";
+        return 1;
+    }
 
-    // std::ifstream in(argv[1]);
-    // if (!in.is_open()) {
-    //     std::cout << "Ne morem odpreti datoteke\n";
-    //     return 1;
-    // }
+    std::ifstream in(argv[1]);
+    if (!in.is_open()) {
+        std::cout << "Ne morem odpreti datoteke\n";
+        return 1;
+    }
 
-    // std::vector<unsigned char> arr;
-    // std::string line;
-    // if (std::getline(in, line)) {
-    //     std::istringstream ss(line);
-    //     std::string token;
-    //     while (std::getline(ss, token, ',')) {
-    //         if (token.empty()) continue;
-    //         int value = std::stoi(token);
-    //         if (value < 0 || value > 255) continue;
-    //         arr.push_back(static_cast<unsigned char>(value));
-    //     }
-    // }
-    // in.close();
+    std::vector<unsigned char> arr;
+    std::string line;
+    if (std::getline(in, line)) {
+        std::istringstream ss(line);
+        std::string token;
+        while (std::getline(ss, token, ',')) {
+            if (token.empty()) continue;
+            int value = std::stoi(token);
+            if (value < 0 || value > 255) continue;
+            arr.push_back(static_cast<unsigned char>(value));
+        }
+    }
+    in.close();
 
-    // binaryRadixSort(arr);
+    binaryRadixSort(arr);
 
-    // std::ofstream out("out.txt");
-    // for (size_t i = 0; i < arr.size(); ++i) {
-    //     out << static_cast<int>(arr[i]);
-    //     if (i + 1 < arr.size()) out << ",";
-    // }
-    // out.close();
+    std::ofstream out("out.txt");
+    for (size_t i = 0; i < arr.size(); ++i) {
+        out << static_cast<int>(arr[i]);
+        if (i + 1 < arr.size()) out << ",";
+    }
+    out.close();
 
-    // std::cout << "Sortirano v out.txt\n";
-    // return 0;
+    std::cout << "Sortirano v out.txt\n";
+    return 0;
 }
 
