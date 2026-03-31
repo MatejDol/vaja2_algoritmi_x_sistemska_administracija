@@ -3,8 +3,10 @@
 #include <fstream>
 #include <sstream>
 
-void binaryRadixSort(std::vector<unsigned char>& arr) {
-    std::vector<unsigned char> tmp(arr.size());
+using namespace std;
+
+void binaryRadixSort(vector<unsigned char>& arr) {
+    vector<unsigned char> tmp(arr.size());
     for (int bit = 0; bit < 8; ++bit) {
         int count0 = 0;
         for (unsigned char x : arr) {
@@ -24,24 +26,22 @@ void binaryRadixSort(std::vector<unsigned char>& arr) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        std::cout << "Uporaba: vaja <vhodna_datoteka>\n";
+        cout << "potrebno je zagnati program kot: vaja <vhodna_datoteka>";
         return 1;
     }
 
-    std::ifstream in(argv[1]);
+    ifstream in(argv[1]);
     if (!in.is_open()) {
-        std::cout << "Ne morem odpreti datoteke\n";
+        cout << "ne morem odpreti datoteke";
         return 1;
     }
 
-    std::vector<unsigned char> arr;
-    std::string line;
-    if (std::getline(in, line)) {
-        std::istringstream ss(line);
-        std::string token;
-        while (std::getline(ss, token, ',')) {
-            if (token.empty()) continue;
-            int value = std::stoi(token);
+    vector<unsigned char> arr;
+    string line;
+    if (getline(in, line)) {
+        istringstream ss(line);
+        int value;
+        while (ss >> value) {
             if (value < 0 || value > 255) continue;
             arr.push_back(static_cast<unsigned char>(value));
         }
@@ -50,14 +50,14 @@ int main(int argc, char* argv[]) {
 
     binaryRadixSort(arr);
 
-    std::ofstream out("out.txt");
+    ofstream out("out.txt");
     for (size_t i = 0; i < arr.size(); ++i) {
         out << static_cast<int>(arr[i]);
         if (i + 1 < arr.size()) out << ",";
     }
     out.close();
 
-    std::cout << "Sortirano v out.txt\n";
+    cout << "Sortirano v out.txt";
     return 0;
 }
 
