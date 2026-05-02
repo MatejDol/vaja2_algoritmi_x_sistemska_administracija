@@ -1,0 +1,69 @@
+name: 29888 Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  preverjanje:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Preveri obstoj testnih skript
+        run: |
+          > napaka.txt
+          if [ ! -f "test.sh" ]; then
+            echo "NAPAKA: Testna skripta test.sh ne obstaja" 2>&1 | tee -a napaka.txt >&2
+          fi
+          if [ ! -f "vaja.cpp" ]; then
+            echo "NAPAKA: Izvorna datoteka vaja.cpp ne obstaja" 2>&1 | tee -a napaka.txt >&2
+          fi
+
+      - name: Prevajanje izvorne kode
+        run: |
+          if [ -s napaka.txt ]; then
+            echo "Preskocim prevajanje zaradi napak v pripravi"
+          else
+            g++ -O2 -o vaja vaja.cpp 2>> napaka.txt || echo "NAPAKA: Prevajanje ni uspelo" >> napaka.txt
+          fi
+
+      - name: Nalozi artefakt napaka.txt
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: napaka
+          path: napaka.txt
+
+  testi:
+    runs-on: self-hosted
+    needs: preverjanje
+    strategy:
+      matrix:
+        optimizacija: ["-O0", "-O2"]
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Prenesi artefakt napaka.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: napaka
+
+      - name: Preveri napake iz preverjanja
+        run: |
+          if [ -s napaka.txt ]; then
+            echo "Testiranje preskoceno zaradi napak iz faze preverjanja:"
+            cat napaka.txt
+            exit 1
+          fi
+
+      - name: Prevajanje z optimizacijo ${{ matrix.optimizacija }}
+        run: g++ ${{ matrix.optimizacija }} -o vaja vaja.cpp
+
+      - name: Zaženi teste
+        run: |
+          chmod +x test.sh
+          ./test.sh
